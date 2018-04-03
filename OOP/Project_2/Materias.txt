@@ -1,0 +1,5 @@
+505 Programacion Orientada a Objetos
+806 Matematicas I
+509 Estructura de Datos
+203 Fisica III
+501 Fundamentos de Programacion

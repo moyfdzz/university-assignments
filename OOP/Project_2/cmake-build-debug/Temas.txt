@@ -1,0 +1,10 @@
+1056 505 Archivos de Texto
+1945 806 Derivadas
+1438 505 Clases y Objetos
+1201 203 Magnetismo en ensamblajes
+7540 509 Listas Encadenadas
+4532 501 Parametros por Referencia
+2312 505 Arreglos con Objetos
+8592 509 Arboles Binarios de Busqueda
+1278 806 Integrales en General
+2290 501 Introduccion a las Ciclos
