@@ -1,0 +1,3 @@
+/Users/Moises/Desktop/Proyecto3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/Moises/Desktop/Proyecto3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/Moises/Desktop/Proyecto3/cmake-build-debug/CMakeFiles/Proyecto3.dir

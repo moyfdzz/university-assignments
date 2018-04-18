@@ -1,0 +1,20 @@
+101 Cien_años_de_soledad L 122 Gabriel_Garcia_Marquez
+102 Harry_Potter_Serie L 435 JK_Rowling
+103 El_ingenioso_hidalgo_Don_Quijote_de_la_Mancha L 324 Miguel_de_Cervantes
+104 El_principito L 89 Antoine_De_Saint_Exupery
+105 El_diario_de_Ana_Frank L 187 Anne_Frank
+106 El_alquimista L 102 Paulo_Coelho
+107 El_codigo_Da_Vinci L 345 Dan_Brown
+108 El_Perfume L 208 Patrik_Saskind
+109 El_señor_de_los_anillos L 453 JRR_Tolkein
+110 El_amor_en_los_tiempos_del_colera L 278 Gabriel_Garcia_Marquez
+201 Thriller D 88
+202 The_Bodyguard D 107
+203 El_fantasma_de_la_opera D 103
+204 Saturday_Night_Fever D 96
+205 Come_on_Over D 79
+301 Visual_Studio_2012 S Windows
+302 Word_8 S Windows
+303 BOCA S Ubuntu
+304 2048 S IOS8
+305 Norton_Antivirus S Windows
