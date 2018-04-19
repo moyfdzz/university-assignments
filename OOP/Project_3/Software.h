@@ -11,14 +11,14 @@ class Software : public Material
 {
 public:
     Software();
-    Software(string, int, string);
+    Software(int, string, string);
 
     string getSistemaOper() { return sistemaOper; }
 
     void setSistemaOper(string sO) { sistemaOper = sO; }
 
     void muestra();
-    int cantidadDeDiasDePrestamo();
+    int cantidadDeDiasDePrestamos() override;
 
 private:
     string sistemaOper;
@@ -29,7 +29,7 @@ Software::Software() : Material()
     sistemaOper = "No asignado";
 }
 
-Software::Software(string sO, int idM, string t) : Material(idM, t)
+Software::Software(int idM, string t, string sO) : Material(idM, t)
 {
     sistemaOper = sO;
 }
@@ -42,7 +42,7 @@ void Software::muestra()
     cout << "ID Software: " << idMaterial << endl;
 }
 
-int Software::cantidadDeDiasDePrestamo()
+int Software::cantidadDeDiasDePrestamos()
 {
     return 1;
 }

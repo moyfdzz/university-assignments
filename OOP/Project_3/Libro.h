@@ -20,7 +20,7 @@ public:
     void setAutor(string autor) { this->autor = autor; }
 
     void muestra();
-    int cantidadDeDiasDePrestamo();
+    int cantidadDeDiasDePrestamos() override;
 
 private:
     int numPag;
@@ -48,7 +48,7 @@ void Libro::muestra()
     cout << "ID Libro: " << idMaterial << endl;
 }
 
-int Libro::cantidadDeDiasDePrestamo()
+int Libro::cantidadDeDiasDePrestamos()
 {
     return 10;
 }

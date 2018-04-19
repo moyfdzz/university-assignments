@@ -11,14 +11,14 @@ class Disco : public Material
 {
 public:
     Disco();
-    Disco(int, int, string);
+    Disco(int, string, int);
 
     int getDuracion() { return duracion; }
 
     void setDuracion(int duracion) { this->duracion = duracion; }
 
     void muestra();
-    int cantidadDeDiasDePrestamo();
+    int cantidadDeDiasDePrestamos() override;
 
 private:
     int duracion;
@@ -29,7 +29,7 @@ Disco::Disco() : Material()
     duracion = 0;
 }
 
-Disco::Disco(int duracion, int idM, string t) : Material (idM, t)
+Disco::Disco(int idM, string t, int duracion) : Material (idM, t)
 {
     this->duracion = duracion;
 }
@@ -42,7 +42,7 @@ void Disco::muestra()
     cout << "ID Disco: " << idMaterial << endl;
 }
 
-int Disco::cantidadDeDiasDePrestamo()
+int Disco::cantidadDeDiasDePrestamos()
 {
     return 3;
 }

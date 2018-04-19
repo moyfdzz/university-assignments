@@ -50,11 +50,11 @@ private:
     // atributos
     int dd, mm, aa;
 
-    string nombreMes();
+    string nombreMes(int);
     bool esBisiesto();
 };
 
-string Fecha::nombreMes()
+string Fecha::nombreMes(int mm)
 {
     switch(mm)
     {
@@ -82,6 +82,8 @@ string Fecha::nombreMes()
             return "Nov";
         case 12:
             return "Dic";
+        default:
+            break;
     }
 }
 
@@ -243,7 +245,7 @@ istream& operator>>(istream &is, Fecha &dato)
 // no incluyas espacios ni enter
 ostream& operator<<(ostream &os, Fecha &dato)
 {
-    os << dato.dd << "/" << dato.nombreMes() << "/" << dato.aa;
+    os << dato.dd << "/" << dato.nombreMes(dato.mm) << "/" << dato.aa;
 
     return os;
 }
