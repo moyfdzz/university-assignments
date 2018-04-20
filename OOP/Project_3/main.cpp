@@ -233,6 +233,38 @@ void consultarReservacionesDeFecha()
     }
 }
 
+int infoDiasPrestamoHacerR(int idMaterial, Fecha &fechaReservacionInicial, bool &posibleReservar, Fecha fechaUsuario)
+{
+    int cantDiasPrestamo = 0;
+
+    /* Recibe el ID del material y lo compara con los IDs de los materiales del arreglo de las reservaciones. Si
+     * encuentra uno igual, asigna la fecha de reservación del arreglo de reservaciones y la cantidad de días de
+     * préstamo.*/
+    for(int counter = 0; counter < cantReservaciones; counter++)
+    {
+        int idMaterialReservaciones = arrGlobalReserva[counter].getIdMaterial();
+        if(idMaterial == idMaterialReservaciones)
+        {
+            cantDiasPrestamo = arrGlobalMaterial[counter]->cantidadDeDiasDePrestamos();
+            break;
+        }
+    }
+
+    /* Recibe el ID del material y lo compara con los IDs de los materiales del arreglo de las reservaciones. Si
+     * encuentra uno igual, asigna la fecha de reservación del arreglo de reservaciones.*/
+    for(int counter = 0; counter < cantReservaciones; counter++)
+    {
+        int idMaterialReservacion = arrGlobalReserva[counter].getIdMaterial();
+        if(idMaterial == idMaterialReservacion)
+        {
+            fechaReservacionInicial = arrGlobalReserva[counter].getFechaReservacion();
+            break;
+        }
+    }
+
+    return cantDiasPrestamo;
+}
+
 void hacerReservacion()
 {
     int idCliente, idMaterial, dd, mm, aa;
@@ -257,22 +289,28 @@ void hacerReservacion()
     Fecha fechaUsuario(dd, mm, aa);
 
     bool encuentraReservacion = false;
+    bool posibleReservar = true;
 
     for(int counter = 0; counter < cantReservaciones; counter++)
     {
-        string nombreMaterial;
-        Fecha fechaReservacionInicial = arrGlobalReserva[counter].getFechaReservacion();
-        int cantDiasPrestamo = infoDiasPrestamoPorM(idMaterial, nombreMaterial);
+        Fecha fechaReservacionInicial;
+        int cantDiasPrestamo = infoDiasPrestamoHacerR(idMaterial, fechaReservacionInicial, posibleReservar,
+                                                      fechaUsuario);
         Fecha fechaReservacionFinal = fechaReservacionInicial + cantDiasPrestamo;
+
         if(fechaUsuario >= fechaReservacionInicial && fechaUsuario <= fechaReservacionFinal)
         {
             encuentraReservacion = true;
-            cout << "El material ya está reservado en la fecha " << fechaUsuario << endl;
-            break;
+        }
+
+        if(fechaUsuario + cantDiasPrestamo >= fechaReservacionInicial && fechaUsuario + cantDiasPrestamo <=
+                                                                         fechaReservacionFinal)
+        {
+            posibleReservar = false;
         }
     }
 
-    if(!encuentraReservacion)
+    if(!encuentraReservacion && posibleReservar)
     {
         arrGlobalReserva[cantReservaciones].setFechaReservacion(fechaUsuario);
         arrGlobalReserva[cantReservaciones].setIdMaterial(idMaterial);
@@ -280,6 +318,8 @@ void hacerReservacion()
         cantReservaciones++;
         cout << "Su reservación fue realizada con éxito. " << '\n' << endl;
     }
+    else
+        cout << "No es posible reservar en la fecha " << fechaUsuario << endl;
 }
 
 void mostrarMenu()
