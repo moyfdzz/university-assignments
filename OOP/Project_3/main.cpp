@@ -10,7 +10,7 @@ ifstream reservas("Reserva.txt");
 Material *arrGlobalMaterial[20];
 Reserva arrGlobalReserva[50];
 int cantMateriales = 0;
-int cantReservas = 0;
+int cantReservaciones = 0;
 
 void cargarDatosMateriales()
 {
@@ -36,7 +36,6 @@ void cargarDatosMateriales()
                 arrGlobalMaterial[cantMateriales++] = new Software(idMaterial, titulo, sistemaOper);
 
                 break;
-            default:break;
         }
 }
 
@@ -47,10 +46,10 @@ void cargarDatosReservaciones()
     while(reservas >> dd >> mm >> aa >> idMaterial >> idCliente)
     {
         Fecha f(dd, mm, aa);
-        arrGlobalReserva[cantReservas].setFechaReservacion(f);
-        arrGlobalReserva[cantReservas].setIdMaterial(idMaterial);
-        arrGlobalReserva[cantReservas].setIdCliente(idCliente);
-        cantReservas++;
+        arrGlobalReserva[cantReservaciones].setFechaReservacion(f);
+        arrGlobalReserva[cantReservaciones].setIdMaterial(idMaterial);
+        arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
+        cantReservaciones++;
     }
 }
 
@@ -84,7 +83,7 @@ int infoPrestamo(int idMR, string &nM)
 
 void consultarReservaciones()
 {
-    for(int counter = 0; counter < cantReservas; counter++)
+    for(int counter = 0; counter < cantReservaciones; counter++)
     {
         Fecha fRI = arrGlobalReserva[counter].getFechaReservacion();
 
@@ -106,7 +105,7 @@ int infoPrestamoPorM(int idM, string &nM, Fecha &f)
 {
     int cDP = 0;
 
-    for(int counter = 0; counter < cantReservas; counter++)
+    for(int counter = 0; counter < cantReservaciones; counter++)
     {
         int idMR = arrGlobalReserva[counter].getIdMaterial();
         if(idM == idMR)
@@ -154,20 +153,28 @@ void consultarReservacionesDeMaterial()
 
     bool encontro = encontrarMaterial(idMaterial);
 
-    if(encontro)
+    while(!encontro)
     {
-        string nM;
-        Fecha fRI;
-        int cDP = infoPrestamoPorM(idMaterial, nM, fRI);
-        Fecha fRF = fRI + cDP;
-
-
-        cout << "Nombre del material: " << nM << endl;
-        cout << "Fecha de reservación inicial: " << fRI << endl;
-        cout << "Fecha de reservación final: " << fRF << endl;
+        cout << "El material no fue encontrado. Por favor intente con otro ID. " << endl;
+        cin >> idMaterial;
+        encontro = encontrarMaterial(idMaterial);
     }
-    else
-        cout << "No fue encontrado el material " << endl;
+
+    for(int counter = 0; counter < cantReservaciones; counter++)
+    {
+        if(idMaterial == arrGlobalReserva[counter].getIdMaterial())
+        {
+            string nM;
+            Fecha fRI = arrGlobalReserva[counter].getFechaReservacion();
+            int cDP = infoPrestamoPorM(idMaterial, nM, fRI);
+            Fecha fRF = fRI + cDP;
+
+            cout << "Reservación número " << counter + 1 << endl;
+            cout << "Nombre del material: " << nM << endl;
+            cout << "Fecha de reservación inicial: " << fRI << endl;
+            cout << "Fecha de reservación final: " << fRF << '\n' << endl;
+        }
+    }
 }
 
 void consultarReservacionesDeFecha()
@@ -182,7 +189,7 @@ void consultarReservacionesDeFecha()
 
     cout << "La lista de materiales reservados en la fecha " << fU << " es la siguiente:" << '\n' << endl;
 
-    for(int counter = 0; counter < cantReservas; counter++)
+    for(int counter = 0; counter < cantReservaciones; counter++)
     {
         string nM;
         Fecha fRI = arrGlobalReserva[counter].getFechaReservacion();
@@ -211,6 +218,55 @@ void consultarReservacionesDeFecha()
     }
 }
 
+void hacerReservacion()
+{
+    int idCliente, idMaterial, dd, mm, aa;
+    cout << "Ingrese su ID de cliente: ";
+    cin >> idCliente;
+
+    cout << "Ingrese el ID del material: ";
+    cin >> idMaterial;
+
+    bool encontro = encontrarMaterial(idMaterial);
+
+    while(!encontro)
+    {
+        cout << "El material no fue encontrado. Por favor intente con otro ID. " << endl;
+        cin >> idMaterial;
+        encontro = encontrarMaterial(idMaterial);
+    }
+
+    cout << "Ingrese la fecha en la que quiere reservar el material (dd/mm/aa): ";
+    cin >> dd >> mm >> aa;
+
+    Fecha fU(dd, mm, aa);
+
+    bool encuentraMaterial = true;
+
+    for(int counter = 0; counter < cantReservaciones; counter++)
+    {
+        string nM;
+        Fecha fRI = arrGlobalReserva[counter].getFechaReservacion();
+        int cDP = infoPrestamoPorM(idMaterial, nM, fRI);
+        Fecha fRF = fRI + cDP;
+        if(fU >= fRI && fU <= fRF)
+        {
+            encuentraMaterial = false;
+            cout << "El material ya está reservado en la fecha " << fU << endl;
+            break;
+        }
+    }
+
+    if(!encuentraMaterial)
+    {
+        arrGlobalReserva[cantReservaciones].setFechaReservacion(fU);
+        arrGlobalReserva[cantReservaciones].setIdMaterial(idMaterial);
+        arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
+        cantReservaciones++;
+        cout << "Su reservación fue realizada con éxito. " << endl;
+    }
+}
+
 void mostrarMenu()
 {
     char opcion;
@@ -227,7 +283,8 @@ void mostrarMenu()
         cout << "Opcion -> ";
         cin >> opcion;
 
-        switch (opcion) {
+        switch (opcion)
+        {
             case 'a':
                 consultarMateriales();
 
@@ -246,16 +303,15 @@ void mostrarMenu()
 
                 break;
             case 'e':
-                
+                hacerReservacion();
 
                 break;
-            default:break;
         }
-
     } while (opcion != 'f');
 }
 
-int main() {
+int main()
+{
     cargarDatosArchivos();
 
     mostrarMenu();
