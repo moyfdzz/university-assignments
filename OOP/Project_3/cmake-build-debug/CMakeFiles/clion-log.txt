@@ -1,8 +1,4 @@
 /Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/Moises/Desktop/Proyecto3
-CMake Error: File /Users/Moises/Desktop/Proyecto3/Material.txt does not exist.
-CMake Error at CMakeLists.txt:9 (configure_file):
-  configure_file Problem configuring file
-
-
--- Configuring incomplete, errors occurred!
-See also "/Users/Moises/Desktop/Proyecto3/cmake-build-debug/CMakeFiles/CMakeOutput.log".
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/Moises/Desktop/Proyecto3/cmake-build-debug
