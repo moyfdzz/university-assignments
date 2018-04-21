@@ -233,9 +233,11 @@ void consultarReservacionesDeFecha()
     }
 }
 
-int infoDiasPrestamoHacerR(int idMaterial, Fecha &fechaReservacionInicial, bool &posibleReservar, Fecha fechaUsuario)
+bool validarFecha(int idMaterial, Fecha fechaUsuario)
 {
+    bool valido = true;
     int cantDiasPrestamo = 0;
+    Fecha fechaReservacionInicial, fechaReservacionFinal;
 
     /* Recibe el ID del material y lo compara con los IDs de los materiales del arreglo de las reservaciones. Si
      * encuentra uno igual, asigna la fecha de reservación del arreglo de reservaciones y la cantidad de días de
@@ -254,15 +256,21 @@ int infoDiasPrestamoHacerR(int idMaterial, Fecha &fechaReservacionInicial, bool 
      * encuentra uno igual, asigna la fecha de reservación del arreglo de reservaciones.*/
     for(int counter = 0; counter < cantReservaciones; counter++)
     {
-        int idMaterialReservacion = arrGlobalReserva[counter].getIdMaterial();
-        if(idMaterial == idMaterialReservacion)
+        if(idMaterial == arrGlobalReserva[counter].getIdMaterial())
         {
             fechaReservacionInicial = arrGlobalReserva[counter].getFechaReservacion();
-            break;
+            fechaReservacionFinal = fechaReservacionInicial + cantDiasPrestamo;
+
+            if((fechaUsuario >= fechaReservacionInicial && fechaUsuario <= fechaReservacionFinal) ||
+               (fechaUsuario + cantDiasPrestamo >= fechaReservacionInicial && fechaUsuario + cantDiasPrestamo
+                                                                              <= fechaReservacionFinal))
+            {
+                valido = false;
+            }
         }
     }
 
-    return cantDiasPrestamo;
+    return valido;
 }
 
 void hacerReservacion()
@@ -283,43 +291,23 @@ void hacerReservacion()
         encontro = encontrarMaterial(idMaterial);
     }
 
-    cout << "Ingrese la fecha en la que quiere reservar el material (dd/mm/aa): ";
+    cout << "Ingrese la fecha en la que desea reservar (dd/mm/aa): ";
     cin >> dd >> mm >> aa;
 
     Fecha fechaUsuario(dd, mm, aa);
 
-    bool encuentraReservacion = false;
-    bool posibleReservar = true;
+    bool fechaValida = validarFecha(idMaterial, fechaUsuario);
 
-    for(int counter = 0; counter < cantReservaciones; counter++)
+    if(fechaValida)
     {
-        Fecha fechaReservacionInicial;
-        int cantDiasPrestamo = infoDiasPrestamoHacerR(idMaterial, fechaReservacionInicial, posibleReservar,
-                                                      fechaUsuario);
-        Fecha fechaReservacionFinal = fechaReservacionInicial + cantDiasPrestamo;
-
-        if(fechaUsuario >= fechaReservacionInicial && fechaUsuario <= fechaReservacionFinal)
-        {
-            encuentraReservacion = true;
-        }
-
-        if(fechaUsuario + cantDiasPrestamo >= fechaReservacionInicial && fechaUsuario + cantDiasPrestamo <=
-                                                                         fechaReservacionFinal)
-        {
-            posibleReservar = false;
-        }
-    }
-
-    if(!encuentraReservacion && posibleReservar)
-    {
-        arrGlobalReserva[cantReservaciones].setFechaReservacion(fechaUsuario);
         arrGlobalReserva[cantReservaciones].setIdMaterial(idMaterial);
         arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
+        arrGlobalReserva[cantReservaciones].setFechaReservacion(fechaUsuario);
         cantReservaciones++;
-        cout << "Su reservación fue realizada con éxito. " << '\n' << endl;
+        cout << "Su reservación ha quedado registrada con éxito!" << endl;
     }
     else
-        cout << "No es posible reservar en la fecha " << fechaUsuario << endl;
+        cout << "No es posible reservar ese material en esa fecha. " << endl;
 }
 
 void mostrarMenu()
