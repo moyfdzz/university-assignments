@@ -18,7 +18,7 @@ public:
     void setSistemaOper(string sO) { sistemaOper = sO; }
 
     void muestra();
-    int cantidadDeDiasDePrestamos() override;
+    int cantidadDeDiasDePrestamos();
 
 private:
     string sistemaOper;

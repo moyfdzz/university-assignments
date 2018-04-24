@@ -18,7 +18,7 @@ public:
     void setDuracion(int duracion) { this->duracion = duracion; }
 
     void muestra();
-    int cantidadDeDiasDePrestamos() override;
+    int cantidadDeDiasDePrestamos();
 
 private:
     int duracion;

@@ -20,7 +20,7 @@ public:
     void setAutor(string autor) { this->autor = autor; }
 
     void muestra();
-    int cantidadDeDiasDePrestamos() override;
+    int cantidadDeDiasDePrestamos();
 
 private:
     int numPag;

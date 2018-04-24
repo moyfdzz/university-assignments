@@ -5,8 +5,6 @@ using namespace std;
 
 #include "Reserva.h"
 
-ifstream materiales("Material.txt");
-ifstream reservaciones("Reserva.txt");
 Material *arrGlobalMaterial[20];
 Reserva arrGlobalReserva[50];
 int cantMateriales = 0;
@@ -17,6 +15,8 @@ void cargarDatosMateriales()
     int idMaterial, numPag, duracion;
     char clave;
     string titulo, autor, sistemaOper;
+
+    ifstream materiales("Material.txt");
 
     while(materiales >> idMaterial >> titulo >> clave)
         switch(clave)
@@ -37,11 +37,15 @@ void cargarDatosMateriales()
 
                 break;
         }
+
+    materiales.close();
 }
 
 void cargarDatosReservaciones()
 {
     int dd, mm, aa, idMaterial, idCliente;
+
+    ifstream reservaciones("Reserva.txt");
 
     while(reservaciones >> dd >> mm >> aa >> idMaterial >> idCliente)
     {
@@ -51,6 +55,8 @@ void cargarDatosReservaciones()
         arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
         cantReservaciones++;
     }
+
+    reservaciones.close();
 }
 
 void cargarDatosArchivos()
@@ -291,7 +297,7 @@ void hacerReservacion()
         encontro = encontrarMaterial(idMaterial);
     }
 
-    cout << "Ingrese la fecha en la que desea reservar (dd/mm/aa): ";
+    cout << "Ingrese la fecha en la que desea reservar (dd/mm/aaaa): ";
     cin >> dd >> mm >> aa;
 
     Fecha fechaUsuario(dd, mm, aa);
@@ -304,10 +310,27 @@ void hacerReservacion()
         arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
         arrGlobalReserva[cantReservaciones].setFechaReservacion(fechaUsuario);
         cantReservaciones++;
-        cout << "Su reservación ha quedado registrada con éxito!" << endl;
+        cout << "Su reservación ha sido registrada con éxito!" << endl;
     }
     else
         cout << "No es posible reservar ese material en esa fecha. " << endl;
+}
+
+void actualizarReservas()
+{
+    ofstream cargaReservaciones("Reserva.txt");
+
+    for(int counter = 0; counter < cantReservaciones; counter++)
+    {
+        cargaReservaciones << arrGlobalReserva[counter].getFechaReservacion().getDia() <<
+                           " " << arrGlobalReserva[counter].getFechaReservacion().getMes() << " " <<
+                           arrGlobalReserva[counter].getFechaReservacion().getAnio() << " " <<
+                           arrGlobalReserva[counter].getIdMaterial() << " " << arrGlobalReserva[counter].getIdCliente()
+                           << endl;
+
+    }
+
+    cargaReservaciones.close();
 }
 
 void mostrarMenu()
@@ -351,14 +374,13 @@ void mostrarMenu()
                 break;
         }
     } while (opcion != 'f');
+
+    actualizarReservas();
 }
 
 int main()
 {
     cargarDatosArchivos();
     mostrarMenu();
-    materiales.close();
-    reservaciones.close();
-
     return 0;
 }
