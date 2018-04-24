@@ -98,18 +98,18 @@ void consultarReservaciones()
 
     for(int counter = 0; counter < cantReservaciones; counter++)
     {
+        string nombreMaterial;
+        int idMaterialReservaciones = arrGlobalReserva[counter].getIdMaterial();
+        int cantDiasPrestamo = infoDiasPrestamo(idMaterialReservaciones, nombreMaterial);
+
         Fecha fechaReservacionInicial = arrGlobalReserva[counter].getFechaReservacion();
 
+        cout << "Nombre de Material: " << nombreMaterial << endl;
         cout << "Fecha de reservación inicial: " << fechaReservacionInicial << endl;
-
-        int idMaterialReservaciones = arrGlobalReserva[counter].getIdMaterial();
-        string nombreMaterial;
-        int cantDiasPrestamo = infoDiasPrestamo(idMaterialReservaciones, nombreMaterial);
 
         Fecha fechaReservacionFinal = fechaReservacionInicial + cantDiasPrestamo;
 
         cout << "Fecha de reservación final: " << fechaReservacionFinal << endl;
-        cout << "Nombre de Material: " << nombreMaterial << endl;
         cout << "ID de Cliente: " << arrGlobalReserva[counter].getIdCliente() << '\n' << endl;
     }
 }
@@ -120,10 +120,10 @@ int infoDiasPrestamoPorM(int idMaterial, string &nombreMaterial)
 
     /* Recibe el ID del material y lo compara con los IDs de los materiales del arreglo de las reservaciones. Si
      * encuentra uno igual, asigna la fecha de reservación del arreglo de reservaciones y la cantidad de días de préstamo.*/
-    for(int counter = 0; counter < cantReservaciones; counter++)
+    for(int counter = 0; counter < cantMateriales; counter++)
     {
-        int idMaterialReservaciones = arrGlobalReserva[counter].getIdMaterial();
-        if(idMaterial == idMaterialReservaciones)
+        int idMaterialMateriales = arrGlobalMaterial[counter]->getIdMaterial();
+        if(idMaterial == idMaterialMateriales)
         {
             cantDiasPrestamo = arrGlobalMaterial[counter]->cantidadDeDiasDePrestamos();
             break;
@@ -310,10 +310,10 @@ void hacerReservacion()
         arrGlobalReserva[cantReservaciones].setIdCliente(idCliente);
         arrGlobalReserva[cantReservaciones].setFechaReservacion(fechaUsuario);
         cantReservaciones++;
-        cout << "Su reservación ha sido registrada con éxito!" << endl;
+        cout << "Su reservación ha sido registrada con éxito!" << '\n' << endl;
     }
     else
-        cout << "No es posible reservar ese material en esa fecha. " << endl;
+        cout << "El material solicitado ya está reservado en esa fecha. " << '\n' << endl;
 }
 
 void actualizarReservas()
@@ -355,7 +355,6 @@ void mostrarMenu()
                 consultarMateriales();
 
                 break;
-
             case 'b':
                 consultarReservaciones();
 
