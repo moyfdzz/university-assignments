@@ -15,7 +15,6 @@ class BST {
         int height(); //Tarea 1
         void ancestors(int data); //Tarea 1
         void whatLevelamI(int data); //Tarea 1
-        void printLeaves(); //Tarea escrita
         int count(); //Tarea escrita
         int maxWidth(); //Tarea 2
 
@@ -30,9 +29,9 @@ class BST {
         void libera(NodeT *r);
         int findHeight(NodeT *r); //Tarea 1
         void levelByLevel(NodeT *r); //Tarea 1
-        void findLeaves(NodeT *r); //Tarea escrita
+        void printLeaves(NodeT *r); //Tarea escrita
         int visitNodes(NodeT *r); //Tarea escrita
-        int maxWidthAux(NodeT *r, int levels[10000]);
+        int maxWidthAux(NodeT *r);
 };
 
 BST::BST() {
@@ -242,10 +241,27 @@ void BST::levelByLevel(NodeT *r) {
     }
 }
 
+void BST::printLeaves(NodeT *r) {
+    NodeT * curr = r;
+
+    if (curr == nullptr)
+        return;
+
+    if (curr->getLeft() == nullptr && curr->getRight() == nullptr) {
+        cout << curr->getData() << " ";
+    }
+    else {
+        printLeaves(curr->getLeft());
+        printLeaves(curr->getRight());
+    }
+}
+
 void BST::print(int c) {
-// 1- PreOrder
-// 2- InOrder
-// 3- PostOrder
+// 1 - PreOrder
+// 2 - InOrder
+// 3 - PostOrder
+// 4 - Prints only the leaves of the BST
+// 5 - Prints the BST level by level
 
     switch (c) {
         case 1:
@@ -258,6 +274,10 @@ void BST::print(int c) {
             break;
         case 3:
             postOrder(root);
+
+            break;
+        case 4:
+            printLeaves(root);
 
             break;
         case 5:
@@ -277,9 +297,7 @@ int BST::findHeight(NodeT *r) {
     int leftSubtree = findHeight(curr->getLeft());
     int rightSubtree = findHeight(curr->getRight());
 
-    int height = (leftSubtree > rightSubtree) ? leftSubtree + 1 : rightSubtree + 1;
-
-    return height;
+    return 1 + (leftSubtree > rightSubtree ? leftSubtree: rightSubtree);
 }
 
 int BST::height() {
@@ -293,9 +311,14 @@ void BST::ancestors(int data) {
 
      while (curr != nullptr && !found) {
          if (curr->getData() == data) {
-             while (!ancestorsStack.empty()) {
-                 cout << ancestorsStack.top() << " ";
-                 ancestorsStack.pop();
+             if (ancestorsStack.empty()) {
+                 cout << "NO EXISTEN ANCESTROS" << endl;
+             }
+             else {
+                while (!ancestorsStack.empty()) {
+                    cout << ancestorsStack.top() << " ";
+                    ancestorsStack.pop();
+                }
              }
              cout << endl;
              found = true;
@@ -304,6 +327,9 @@ void BST::ancestors(int data) {
          ancestorsStack.push(curr->getData());
          curr = (curr->getData() > data) ? curr->getLeft() : curr->getRight();
      }
+
+    if (!found)
+        cout << "EL DATO NO EXISTE" << endl;
 }
 
 void BST::whatLevelamI(int data) {
@@ -327,23 +353,6 @@ void BST::whatLevelamI(int data) {
     }
 }
 
-void BST::findLeaves(NodeT *r) {
-    NodeT * curr = r;
-
-    if (curr == nullptr)
-        return;
-
-    if (curr->getLeft() == nullptr && curr->getRight() == nullptr)
-        cout << curr->getData() << " ";
-
-    findLeaves(curr->getLeft());
-    findLeaves(curr->getRight());
-}
-
-void BST::printLeaves() {
-    findLeaves(root);
-}
-
 int BST::visitNodes(NodeT *r) {
     NodeT *curr = r;
 
@@ -358,16 +367,26 @@ int BST::count() {
     return visitNodes(root);
 }
 
-int BST::maxWidthAux(NodeT *r, int levels[10000]) {
+int BST::maxWidthAux(NodeT *r) {
+    queue<NodeT *> nodesQueue;
     NodeT *curr = r;
 
-    if (curr == nullptr)
-        return 0;
+    if (curr == nullptr) {
+        return;
+    }
 
-    levels[curr->getData()]++;
+    nodesQueue.push(curr);
 
-    maxWidthAux(curr->getLeft(), levels);
-    maxWidthAux(curr->getRight(), levels);
+    while (!nodesQueue.empty()) {
+        nodesQueue.pop();
 
-    
+        if (curr->getLeft() != nullptr) {
+            nodesQueue.push(curr->getLeft());
+        }
+        if (curr->getRight() != nullptr) {
+            nodesQueue.push(curr->getRight());
+        }
+
+        curr = nodesQueue.front();
+    }
 }

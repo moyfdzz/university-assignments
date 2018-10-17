@@ -1,4 +1,6 @@
 #include <iostream>
+#include <queue>
+#include <stack>
 using namespace std;
 
 #include "BST.h"
@@ -25,17 +27,37 @@ int main () {
 
     cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
 
-    cout << "~Height~" << endl;
+    if (miArbol.search(100)) {
+        cout << "SI ENCONTRE EL 100" << endl;
+    }
+    else {
+        cout << "NO ENCONTRE EL 100" << endl;
+    }
+    if (miArbol.search(200)) {
+        cout << "SI ENCONTRE EL 200" << endl;
+    }
+    else {
+        cout << "NO ENCONTRE EL 200" << endl;
+    }
+    
+    cout << "~PreOrder~" << endl;
+    miArbol.print(1);
+    cout << endl << "~InOrder~" << endl;
+    miArbol.print(2);
+    cout << endl << "~PostOrder~" << endl;
+    miArbol.print(3);
+    cout << endl << "~Print Leaves~" << endl;
+    miArbol.print(4);
+    cout << endl << "~Level By Level~" << endl;
+    miArbol.print(5);
+    cout << endl << "~Height~" << endl;
     cout << miArbol.height() << endl;
     cout << "~Ancestors~" << endl;
     miArbol.ancestors(5);
     cout << "~Level~" << endl;
     miArbol.whatLevelamI(20);
-    cout << "~Level By Level~" << endl;
-    miArbol.print(5);
-    cout << endl;
-    // miArbol.printLeaves();
-    // cout << miArbol.count() << endl;
+    cout << "~Count~" << endl;
+    cout << miArbol.count() << endl;
 
     return 0;
 }
