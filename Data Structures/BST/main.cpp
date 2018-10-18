@@ -67,5 +67,22 @@ int main () {
     // miArbol.print(1);
     // cout << endl;
 
+    BST arbol2(miArbol); //BST arbol2 = BST(miArbol);
+
+    if (miArbol == arbol2)
+        cout << "iguales" << endl;
+    else
+        cout << "diferentes" << endl;
+
+    cout << "maxWidth de arbol1 = " << miArbol.maxWidth() << endl;
+    cout << "maxWidth de arbol2 = " << arbol2.maxWidth() << endl;
+
+    cout << "~arbol 2~" << endl;
+    arbol2.print(1);
+    arbol2.mirror();
+    cout << endl << "~inverso de arbol2~" << endl;
+    arbol2.print(1);
+    cout << endl <<  "nearestRelative de 31 y 49 en el arbol2 = " << arbol2.nearestRelative(31, 49) << endl;
+
     return 0;
 }

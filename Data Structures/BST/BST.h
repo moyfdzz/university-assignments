@@ -413,32 +413,22 @@ int BST::maxWidth() {
 }
 
 int BST::nearestRelative(int a, int b) {
-    if (!search(a) || !search(b)) {
-        cout << "Invalid data." << endl;
+    NodeT *curr = root;
+    int nearestAncestor = curr->getData();
+    bool found = false;
 
-        return 0;
-    }
-
-    NodeT *curr = root, *ancestor = root;
-
-    while (curr != nullptr) {
-        if (curr->getData() == a || curr->getData() == b) {
-            return ancestor->getData();
-        }
-        else if (curr->getData() > a && root->getData() > b) {
-            ancestor = curr;
-            curr = curr->getLeft();
-        }
-        else if (curr->getData() < a && curr->getData() < b) {
-            ancestor = curr;
-            curr = curr->getRight();
-        }
+    while (curr != nullptr && !found) {
+        if (curr->getData() > a && root->getData() > b) 
+           curr = curr->getLeft();
+        else if (curr->getData() < a && curr->getData() < b) 
+           curr = curr->getRight();
         else {
-            return curr->getData();
+            nearestAncestor = curr->getData();
+            found = true;
         }
     }
 
-    return -1;
+    return nearestAncestor;
 }
 
 bool BST::checkIfEqual(NodeT *r1, NodeT *r2) {
