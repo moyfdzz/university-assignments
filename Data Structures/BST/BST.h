@@ -20,7 +20,7 @@ class BST {
         int nearestRelative(int a, int b); //Tarea 2
         bool operator==(BST secondTree); //Tarea 2
         BST(const BST &otherTree); //Tarea 2
-        void mirror();
+        void mirror(); //Tarea 2
 
     private:
         NodeT *root;
