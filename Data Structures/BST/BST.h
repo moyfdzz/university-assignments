@@ -17,6 +17,10 @@ class BST {
         void whatLevelamI(int data); //Tarea 1
         int count(); //Tarea escrita
         int maxWidth(); //Tarea 2
+        int nearestRelative(int a, int b); //Tarea 2
+        bool operator==(BST secondTree); //Tarea 2
+        BST(const BST &otherTree); //Tarea 2
+        void mirror();
 
     private:
         NodeT *root;
@@ -31,7 +35,9 @@ class BST {
         void levelByLevel(NodeT *r); //Tarea 1
         void printLeaves(NodeT *r); //Tarea escrita
         int visitNodes(NodeT *r); //Tarea escrita
-        int maxWidthAux(NodeT *r);
+        bool checkIfEqual(NodeT *r1, NodeT *r2); //Tarea 2
+        void copyNodes(NodeT *rOld, NodeT *rNew); //Tarea 2
+        void swapNodes(NodeT *r); //Tarea 2
 };
 
 BST::BST() {
@@ -367,26 +373,132 @@ int BST::count() {
     return visitNodes(root);
 }
 
-int BST::maxWidthAux(NodeT *r) {
-    queue<NodeT *> nodesQueue;
-    NodeT *curr = r;
+int BST::maxWidth() {
+    NodeT *curr = root;
 
-    if (curr == nullptr) {
+    if(curr != nullptr) {
+        queue<NodeT *> nodesBST;
+        nodesBST.push(curr);
+        int ancestors = 1, successors = 0, maxWidthBST = 1;
+
+        do {
+            successors = 0;
+
+            for(int i = 0; i < ancestors; i++) {
+                curr = nodesBST.front();
+
+                if(curr->getLeft() != nullptr) {
+                    nodesBST.push(curr->getLeft());
+                    successors++;
+                } 
+
+                if(curr->getRight() != nullptr) {
+                    nodesBST.push(curr->getRight());
+                    successors++;
+                }
+
+                nodesBST.pop();
+            }
+
+            if(maxWidthBST < ancestors)
+                maxWidthBST = ancestors;
+
+            ancestors = successors;
+        }while(successors > 0);
+        
+        return maxWidthBST;
+    }
+
+    return 0;
+}
+
+int BST::nearestRelative(int a, int b) {
+    if (!search(a) || !search(b)) {
+        cout << "Invalid data." << endl;
+
+        return 0;
+    }
+
+    NodeT *curr = root, *ancestor = root;
+
+    while (curr != nullptr) {
+        if (curr->getData() == a || curr->getData() == b) {
+            return ancestor->getData();
+        }
+        else if (curr->getData() > a && root->getData() > b) {
+            ancestor = curr;
+            curr = curr->getLeft();
+        }
+        else if (curr->getData() < a && curr->getData() < b) {
+            ancestor = curr;
+            curr = curr->getRight();
+        }
+        else {
+            return curr->getData();
+        }
+    }
+
+    return -1;
+}
+
+bool BST::checkIfEqual(NodeT *r1, NodeT *r2) {
+    if (r1 == nullptr && r2 == nullptr)
+        return true;
+    
+    if ((r1 == nullptr && r2 != nullptr) || (r1 != nullptr && r2 == nullptr))
+        return false;
+
+    if (r1->getData() != r2->getData())
+        return false;
+    
+    return checkIfEqual(r1->getLeft(), r2->getLeft()) && checkIfEqual(r1->getRight(), r2->getRight());
+}
+
+bool BST::operator==(BST secondTree) {
+    return checkIfEqual(root, secondTree.root);
+}
+
+void BST::copyNodes(NodeT *rOld, NodeT *rNew)
+{
+    if (rOld == nullptr)
+        return;
+
+    if (rOld->getLeft() != nullptr)
+        rNew->setLeft(new NodeT(rOld->getLeft()->getData()));
+
+    if (rOld->getRight() != nullptr)
+        rNew->setRight(new NodeT(rOld->getRight()->getData()));
+
+    copyNodes(rOld->getLeft(), rNew->getLeft());
+    copyNodes(rOld->getRight(), rNew->getRight());
+}
+
+BST::BST(const BST &otherTree)
+{
+    if (otherTree.root == nullptr) {
+        root = nullptr;
         return;
     }
 
-    nodesQueue.push(curr);
+    root = new NodeT(otherTree.root->getData());
 
-    while (!nodesQueue.empty()) {
-        nodesQueue.pop();
+    copyNodes(otherTree.root, root);
+}
 
-        if (curr->getLeft() != nullptr) {
-            nodesQueue.push(curr->getLeft());
-        }
-        if (curr->getRight() != nullptr) {
-            nodesQueue.push(curr->getRight());
-        }
-
-        curr = nodesQueue.front();
+void BST::swapNodes(NodeT *r) {
+    if (r == nullptr) {
+        return;
     }
+
+    swapNodes(r->getLeft());
+    swapNodes(r->getRight());
+
+    NodeT *temp = r->getLeft();
+
+    r->setLeft(r->getRight());
+    r->setRight(temp);
+}
+
+void BST::mirror() {
+    swapNodes(root);
 }
