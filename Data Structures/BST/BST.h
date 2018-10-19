@@ -7,7 +7,7 @@ using namespace std;
 class BST {
     public:
         BST();
-        //~BST();
+        ~BST();
         void add(int data);
         bool search(int data);
         void remove(int data);
@@ -21,6 +21,8 @@ class BST {
         bool operator==(BST secondTree); //Tarea 2
         BST(const BST &otherTree); //Tarea 2
         void mirror(); //Tarea 2
+        int howManyAreSmallerThanMe(int data); //Exam
+        bool check(); //Exam
 
     private:
         NodeT *root;
@@ -38,6 +40,8 @@ class BST {
         bool checkIfEqual(NodeT *r1, NodeT *r2); //Tarea 2
         void copyNodes(NodeT *rOld, NodeT *rNew); //Tarea 2
         void swapNodes(NodeT *r); //Tarea 2
+        int visitTree(NodeT *r, int &counterSmaller, const int data); //Exam
+        bool checkIfBST(NodeT *r); //Exam
 };
 
 BST::BST() {
@@ -51,6 +55,10 @@ void BST::libera(NodeT *r) {
 
         delete r;
     }
+}
+
+BST::~BST() {
+    libera(root);
 }
 
 bool BST::search(int data) {
@@ -491,4 +499,46 @@ void BST::swapNodes(NodeT *r) {
 
 void BST::mirror() {
     swapNodes(root);
+}
+
+int BST::visitTree(NodeT *r, int &counterSmaller, const int data) {
+    NodeT *curr = r;
+
+    if (curr == nullptr) {
+        return 0;
+    }
+
+    if (curr->getData() < data)
+        counterSmaller++;
+
+    visitTree(curr->getLeft(), counterSmaller, data);
+    visitTree(curr->getRight(), counterSmaller, data);
+
+    return counterSmaller;
+}
+
+int BST::howManyAreSmallerThanMe(int data) {
+     int counterSmaller = 0;
+
+     return visitTree(root, counterSmaller, data);
+}
+
+bool BST::checkIfBST(NodeT *r) {
+    if (r == nullptr) {
+        return true;
+    }
+
+    bool isBST = true;
+
+    if (r->getLeft() != nullptr)
+        isBST = r->getLeft()->getData() < r->getData();
+
+    if (r->getRight() != nullptr)
+        isBST = isBST && r->getRight()->getData() > r->getData();
+
+    return checkIfBST(r->getLeft()) && checkIfBST(r->getRight()) && isBST;
+}
+
+bool BST::check() {
+    return checkIfBST(root);
 }
