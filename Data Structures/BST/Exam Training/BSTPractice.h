@@ -21,10 +21,14 @@ class BST {
         bool operator==(BST secondTree); //Tarea 2
         BST(const BST &otherTree); //Tarea 2
         void mirror(); //Tarea 2
-        int howManyAreSmallerThanMe(int data); //Exam
-        bool check(); //Exam
-        bool isBalanced(); //Tarea 3
-        int diameter(); //Tarea 3
+        void printPathsToLeaves(); //Practice
+        void printMinValue(); //Practice
+        bool isBST(); //Practice
+        void printMaxValue(); //Practice
+        void printKthDistance(int k); //Practice (Nodes at k distance from root)
+        int descendants(int data); //Practice (Prints descendants of received number)
+        int getWidth(int level); //Practice (Get how many nodes in a level)
+        void printSingles(); //Practice (Prints nodes that have no siblings)
 
     private:
         NodeT *root;
@@ -42,10 +46,11 @@ class BST {
         bool checkIfEqual(NodeT *r1, NodeT *r2); //Tarea 2
         void copyNodes(NodeT *rOld, NodeT *rNew); //Tarea 2
         void swapNodes(NodeT *r); //Tarea 2
-        int visitTree(NodeT *r, int &counterSmaller, const int data); //Exam
-        bool checkIfBST(NodeT *r); //Exam
-        bool checkIfBSTBalanced(NodeT *r); //Tarea 3
-        int findDiameter(NodeT *r); //Tarea 3
+        void printWithStack(NodeT *r, stack<int> st); //Practice
+        bool childrenAreValid(NodeT *r); //Practice
+        void findKthElement(NodeT *r, int counter); //Practice
+        int countDescendants(NodeT *curr); //Practice
+        void singles(NodeT *r); //Practice
 };
 
 BST::BST() {
@@ -280,6 +285,7 @@ void BST::print(int c) {
 // 3 - PostOrder
 // 4 - Prints only the leaves of the BST
 // 5 - Prints the BST level by level
+// 6 - Prints the paths to the leaves of the BST
 
     switch (c) {
         case 1:
@@ -505,69 +511,180 @@ void BST::mirror() {
     swapNodes(root);
 }
 
-int BST::visitTree(NodeT *r, int &counterSmaller, const int data) {
-    NodeT *curr = r;
+void BST::printWithStack(NodeT *r, stack<int> st)
+{
+    if (r == nullptr)
+        return;
+        
+    if (r->getRight() == nullptr && r->getLeft() == nullptr) {
+        st.push(r->getData());
+
+        while (!st.empty()){
+            cout << st.top() << " ";
+            st.pop();
+        }
+
+        cout << endl;
+
+        return;
+    }
+
+    st.push(r->getData());
+
+    printWithStack(r->getLeft(), st);
+    printWithStack(r->getRight(), st);
+}
+
+void BST::printPathsToLeaves() {
+    stack<int> st;
+    printWithStack(root, st);
+}
+
+void BST::printMinValue() {
+    NodeT *curr = root;
+
+    if (curr == nullptr) {
+        cout << "Empty BST." << endl;
+    }
+
+    while (curr->getLeft() != nullptr) {
+        curr = curr->getLeft();
+    }
+
+    cout << curr->getData() << endl;
+}
+
+bool BST::childrenAreValid(NodeT *r)
+{
+    if (r == nullptr)
+        return true;
+
+    bool valid = true;
+
+    if (r->getLeft() != nullptr)
+        valid = r->getLeft()->getData() < r->getData();
+
+    if (r->getRight() != nullptr)
+        valid = valid && r->getRight()->getData() > r->getData();
+
+    return childrenAreValid(r->getLeft()) && childrenAreValid(r->getRight()) && valid;
+}
+
+bool BST::isBST()
+{
+    return childrenAreValid(root);
+}
+
+void BST::printMaxValue() {
+    NodeT *curr = root;
+
+    if (curr == nullptr) {
+        cout << "Empty BST." << endl;
+    }
+
+    while (curr->getRight() != nullptr) {
+        curr = curr->getRight();
+    }
+
+    cout << curr->getData() << endl;
+}
+
+void BST::findKthElement(NodeT *r, int counter) {
+    if (r == nullptr)
+        return;
+
+    if (counter == 0) {
+        cout << r->getData() << endl;
+        return;
+    }
+
+    findKthElement(r->getLeft(), counter - 1);
+    findKthElement(r->getRight(), counter - 1);
+}
+
+
+void BST::printKthDistance(int k) {
+    findKthElement(root, k);
+}
+
+int BST::countDescendants(NodeT *curr){
+    if(curr == nullptr){
+        return 0;
+    }
+
+    return countDescendants(curr->getLeft()) + countDescendants(curr->getRight()) + 1; 
+}
+
+int BST::descendants(int data){
+    if(root == nullptr){
+        return -1;
+    }
+
+    NodeT *curr = root;
+
+    while(curr!= nullptr && curr->getData() != data){
+        curr = (data > curr->getData()) ? curr->getRight() : curr->getLeft();
+    }
+
+    return countDescendants(curr) - 1;
+}
+
+int BST::getWidth(int level) {
+    NodeT *curr = root;
 
     if (curr == nullptr) {
         return 0;
     }
 
-    if (curr->getData() < data)
-        counterSmaller++;
+    queue<NodeT *> queue;
+    queue.push(curr);
+    int lv = 0;
 
-    visitTree(curr->getLeft(), counterSmaller, data);
-    visitTree(curr->getRight(), counterSmaller, data);
+    while (!queue.empty()) {
+        int queueSize = queue.size();
+        
+        if (lv == level) {
+            return queueSize;
+        }
 
-    return counterSmaller;
-}
+        while (queueSize != 0) {
+            if (queue.front()->getLeft() != nullptr) {
+                queue.push(queue.front()->getLeft());
+            }
+            if (queue.front()->getRight() != nullptr) {
+                queue.push(queue.front()->getRight());
+            }
 
-int BST::howManyAreSmallerThanMe(int data) {
-     int counterSmaller = 0;
-
-     return visitTree(root, counterSmaller, data);
-}
-
-bool BST::checkIfBST(NodeT *r) {
-    if (r == nullptr) {
-        return true;
+            queueSize--;
+            queue.pop();
+        }
+        lv++;
     }
 
-    bool isBST = true;
-
-    if (r->getLeft() != nullptr)
-        isBST = r->getLeft()->getData() < r->getData();
-
-    if (r->getRight() != nullptr)
-        isBST = isBST && r->getRight()->getData() > r->getData();
-
-    return checkIfBST(r->getLeft()) && checkIfBST(r->getRight()) && isBST;
+    return lv;
 }
 
-bool BST::check() {
-    return checkIfBST(root);
-}
+// Function to print all non-root nodes that don't have a sibling 
+void BST::singles(NodeT *r) { 
+    if (r == nullptr) 
+      return; 
+  
+    if (r->getLeft() != nullptr && r->getRight() != nullptr) { 
+        singles(r->getLeft()); 
+        singles(r->getRight()); 
+    } 
+    else if (r->getRight() != nullptr) { 
+        cout << r->getRight()->getData() << " "; 
+        singles(r->getRight()); 
+    } 
+    else if (r->getLeft() != nullptr) { 
+        cout << r->getLeft()->getData()<< " "; 
+        singles(r->getLeft()); 
+    } 
+} 
 
-bool BST::checkIfBSTBalanced(NodeT *r) {
-    if (r == nullptr) {
-        return true;
-    }
-
-    return (abs(findHeight(r->getLeft()) - findHeight(r->getRight())) < 2 && checkIfBSTBalanced(r->getLeft()) && checkIfBSTBalanced(r->getRight()));
-}
-
-bool BST::isBalanced() {
-    return checkIfBSTBalanced(root);
-}
-
-int BST::findDiameter(NodeT *r) {
-    if (r == nullptr) {
-        return 0;
-    }
-
-    int diameter = findHeight(r->getLeft()) + findHeight(r->getRight()) + 1;
-
-    int leftDiameter = findDiameter(r->getLeft());
-    int rightDiameter = findDiameter(r->getRight());
-
-    return ((diameter > leftDiameter) ? (diameter > rightDiameter ? diameter : rightDiameter) : (leftDiameter > rightDiameter ? leftDiameter : rightDiameter));
+void BST::printSingles() {
+    singles(root);
+    
+    cout << endl;
 }
