@@ -571,3 +571,7 @@ int BST::findDiameter(NodeT *r) {
 
     return ((diameter > leftDiameter) ? (diameter > rightDiameter ? diameter : rightDiameter) : (leftDiameter > rightDiameter ? leftDiameter : rightDiameter));
 }
+
+int BST::diameter() {
+    return findDiameter(root);
+}

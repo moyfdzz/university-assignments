@@ -7,17 +7,17 @@ using namespace std;
 
 int main () {
     BST miArbol;
-    // miArbol.add(11);
-    // miArbol.add(6);
-    // miArbol.add(19);
-    // miArbol.add(4);
-    // miArbol.add(8);
-    // miArbol.add(17);
-    // miArbol.add(43);
-    // miArbol.add(5);
-    // miArbol.add(10);
-    // miArbol.add(31);
-    // miArbol.add(49);
+    miArbol.add(11);
+    miArbol.add(6);
+    miArbol.add(19);
+    miArbol.add(4);
+    miArbol.add(8);
+    miArbol.add(17);
+    miArbol.add(43);
+    miArbol.add(5);
+    miArbol.add(10);
+    miArbol.add(31);
+    miArbol.add(49);
     //miArbol.print(1);
     // cout << endl;
     // miArbol.print(2);
@@ -25,16 +25,16 @@ int main () {
     // miArbol.print(3);
     // cout << endl;
     // miArbol.add(18);
-    miArbol.add(5);
-    miArbol.add(10);
-    miArbol.add(15);
-    miArbol.add(20);
-    miArbol.add(2);
-    miArbol.add(50);
-    miArbol.add(33);
+    // miArbol.add(5);
+    // miArbol.add(10);
+    // miArbol.add(15);
+    // miArbol.add(20);
+    // miArbol.add(2);
+    // miArbol.add(50);
+    // miArbol.add(33);
 
-    // cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
-    cout << "5 10 15 20 2 50 33" << endl;
+    cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
+    // cout << "5 10 15 20 2 50 33" << endl;
     // miArbol.print(1);
     // cout << endl;
     // miArbol.mirror();
@@ -118,6 +118,13 @@ int main () {
         cout << "It's a BST!" << endl;
     else
         cout << "It's not a BST!" << endl;
+
+    if (miArbol.isBalanced())
+        cout << "It's balanced!" << endl;
+    else
+        cout << "It's not balanced!" << endl;
+
+    cout << "BST's diameter = " << miArbol.diameter() << endl;
 
     return 0;
 }
