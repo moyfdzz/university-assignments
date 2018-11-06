@@ -16,6 +16,8 @@ class Priority {
     private:
         vector<int> vectorHeap;
         bool boolPriority;
+        bool biggestChildNode(int curr);
+        bool smallestChildNode(int curr);
 };
 
 void Priority::print() {
@@ -61,26 +63,69 @@ void Priority::push(int data) {
     }
 }
 
-void Priority::pop() {
-    if (!empty()) {
-        int temp = vectorHeap[1];
+bool Priority::biggestChildNode(int curr) {
+    if(curr * 2 + 1 > vectorHeap.size() - 1){
+        return true;
+    }
+    else{
+        return(vectorHeap[curr * 2] > vectorHeap[curr * 2 + 1]) ? true : false;
+    }
+}
 
-        vectorHeap[1] = vectorHeap[vectorHeap.size() - 1];
-        vectorHeap[vectorHeap.size() - 1] = temp;
+bool Priority::smallestChildNode(int curr) {
+    if(curr * 2 + 1 > vectorHeap.size () - 1) {
+        return true;
+    }
+    else {
+        return(vectorHeap[curr * 2] < vectorHeap[curr * 2 + 1]) ? true : false;
+    }
+}
 
-        vectorHeap.resize(vectorHeap.size() - 1);
+void Priority::pop(){
+ 
+ if(vectorHeap.size() > 1) {
+    
+    vectorHeap[1] = vectorHeap.back();
+    vectorHeap.pop_back();
 
-        int curr = vectorHeap[1];
-        int aux = curr;
-        int hijos = 2 * curr;
+    int curr = 1;
+    int children = curr * 2;
+    int aux, biggest, smallest;
+    bool check = true;
 
-        if (boolPriority) {
+    if(boolPriority) {
+        while(children <= vectorHeap.size() - 1 && check) {
+            biggest = biggestChildNode(curr) ? curr * 2 : curr * 2 + 1;
             
+            if(vectorHeap[curr] < vectorHeap[biggest]) {
+                aux = vectorHeap[curr];
+                vectorHeap[curr] = vectorHeap[biggest];
+                vectorHeap[biggest] = aux;
+                curr = biggest;
+                children = curr * 2;
+            } 
+            else {
+                check = false;
+            }
         }
-        else {
-
+    } 
+    else{
+        while(children <= vectorHeap.size() - 1 && check) {
+            smallest = smallestChildNode(curr) ? curr * 2 : curr * 2 + 1;
+            
+            if(vectorHeap[curr] > vectorHeap[smallest]) {
+                aux = vectorHeap[curr];
+                vectorHeap[curr] = vectorHeap[smallest];
+                vectorHeap[smallest] = aux;
+                curr = smallest;
+                children = curr * 2;
+            } 
+            else {
+                check = false;
+            }
         }
     }
+}
 }
 
 int Priority::top() {
