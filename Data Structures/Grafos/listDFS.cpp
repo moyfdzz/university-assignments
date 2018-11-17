@@ -17,9 +17,9 @@ void leeListAdj(vector<vector<int> > &listAdj, int e) {
 
 void printListAdj(vector<vector<int> > listAdj) {
     for (int i = 0; i < listAdj.size(); i++) {
-        cout << i << " ";
+        cout << i + 1 << " ";
         for (int j = 0; j < listAdj[i].size(); j++) {
-            cout << " - " << listAdj[i][j];
+            cout << " - " << listAdj[i][j] + 1;
         }
 
         cout << endl;
