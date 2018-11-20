@@ -7,17 +7,21 @@ using namespace std;
 
 int main () {
     BST miArbol;
-    miArbol.add(11);
-    miArbol.add(6);
-    miArbol.add(19);
+    miArbol.add(3);
+    miArbol.add(1);
     miArbol.add(4);
-    miArbol.add(8);
-    miArbol.add(17);
-    miArbol.add(43);
     miArbol.add(5);
-    miArbol.add(10);
-    miArbol.add(31);
-    miArbol.add(49);
+    // miArbol.add(11);
+    // miArbol.add(6);
+    // miArbol.add(19);
+    // miArbol.add(4);
+    // miArbol.add(8);
+    // miArbol.add(17);
+    // miArbol.add(43);
+    // miArbol.add(5);
+    // miArbol.add(10);
+    // miArbol.add(31);
+    // miArbol.add(49);
     //miArbol.print(1);
     // cout << endl;
     // miArbol.print(2);
@@ -33,7 +37,7 @@ int main () {
     // miArbol.add(50);
     // miArbol.add(33);
 
-    cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
+    // cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
     // cout << "5 10 15 20 2 50 33" << endl;
     // miArbol.print(1);
     // cout << endl;
@@ -99,32 +103,32 @@ int main () {
     // cout << endl <<  "nearestRelative de 31 y 49 en el arbol2 = " << arbol2.nearestRelative(31, 49) << endl;
 
     // cout << "~Menores~" << endl;
-    cout << "Menores a 5 = " << miArbol.howManyAreSmallerThanMe(5) << endl;
-    cout << "Menores a 2 = " << miArbol.howManyAreSmallerThanMe(2) << endl;
-    cout << "Menores a 6 = " << miArbol.howManyAreSmallerThanMe(6) << endl;
-    cout << "Menores a 16 = " << miArbol.howManyAreSmallerThanMe(16) << endl;
-    cout << "Menores a 22 = " << miArbol.howManyAreSmallerThanMe(22) << endl;
-    cout << "Menores a 45 = " << miArbol.howManyAreSmallerThanMe(45) << endl;
-    cout << "Menores a 51 = " << miArbol.howManyAreSmallerThanMe(51) << endl;
+    // cout << "Menores a 5 = " << miArbol.howManyAreSmallerThanMe(5) << endl;
+    // cout << "Menores a 2 = " << miArbol.howManyAreSmallerThanMe(2) << endl;
+    // cout << "Menores a 6 = " << miArbol.howManyAreSmallerThanMe(6) << endl;
+    // cout << "Menores a 16 = " << miArbol.howManyAreSmallerThanMe(16) << endl;
+    // cout << "Menores a 22 = " << miArbol.howManyAreSmallerThanMe(22) << endl;
+    // cout << "Menores a 45 = " << miArbol.howManyAreSmallerThanMe(45) << endl;
+    // cout << "Menores a 51 = " << miArbol.howManyAreSmallerThanMe(51) << endl;
 
-    if (miArbol.check())
-        cout << "It's a BST!" << endl;
-    else
-        cout << "It's not a BST!" << endl;
+    // if (miArbol.check())
+    //     cout << "It's a BST!" << endl;
+    // else
+    //     cout << "It's not a BST!" << endl;
     
-    miArbol.mirror();
+    // miArbol.mirror();
 
-    if (miArbol.check())
-        cout << "It's a BST!" << endl;
-    else
-        cout << "It's not a BST!" << endl;
+    // if (miArbol.check())
+    //     cout << "It's a BST!" << endl;
+    // else
+    //     cout << "It's not a BST!" << endl;
 
-    if (miArbol.isBalanced())
-        cout << "It's balanced!" << endl;
-    else
-        cout << "It's not balanced!" << endl;
+    // if (miArbol.isBalanced())
+    //     cout << "It's balanced!" << endl;
+    // else
+    //     cout << "It's not balanced!" << endl;
 
-    cout << "BST's diameter = " << miArbol.diameter() << endl;
+    // cout << "BST's diameter = " << miArbol.diameter() << endl;
 
     return 0;
 }

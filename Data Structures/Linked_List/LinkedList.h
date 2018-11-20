@@ -38,6 +38,7 @@ public:
     void operator=(const LinkedList<T> &lista2);
     LinkedList split(int n);
     bool check();
+    void orderHalves(int n);
     
 private:
     Node<T> *head;

@@ -25,6 +25,7 @@ class BST {
         bool check(); //Exam
         bool isBalanced(); //Tarea 3
         int diameter(); //Tarea 3
+        void printLeft();
 
     private:
         NodeT *root;
@@ -46,6 +47,7 @@ class BST {
         bool checkIfBST(NodeT *r); //Exam
         bool checkIfBSTBalanced(NodeT *r); //Tarea 3
         int findDiameter(NodeT *r); //Tarea 3
+        void recorrer(NodeT *r);
 };
 
 BST::BST() {
@@ -574,4 +576,39 @@ int BST::findDiameter(NodeT *r) {
 
 int BST::diameter() {
     return findDiameter(root);
+}
+
+struct TreeNode {
+      int val;
+      TreeNode *left;
+      TreeNode *right;
+      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+TreeNode* mergeTrees(TreeNode *t1,TreeNode *t2) {
+
+    if(t1==nullptr) return t2;
+    if(t2==nullptr) return t1;
+    t1->val += t2->val;
+    t1->left = mergeTrees(t1->left,t2->left);
+    t1->right = mergeTrees(t1->right,t2->right);
+    return t1;
+}
+
+void BST::recorrer(NodeT *r) {
+    int counter = -1;
+
+    if (r != nullptr) {
+        if (whatLevelamI(r->getData()) > counter) {
+            cout << r->getData();
+            counter++;
+        }
+
+        recorrer(r->getLeft());
+        recorrer(r->getRight());
+    }
+}
+
+void BST::printLeft(){
+    recorrer(root);
 }
