@@ -10,17 +10,22 @@ using namespace std;
 int main(){
 	BST miArbol;
 
-	miArbol.add(8);
-	miArbol.add(3);
-	miArbol.add(10);
-	miArbol.add(1);
-	miArbol.add(6);
-	miArbol.add(14);
-	miArbol.add(4);
-	miArbol.add(7);
-	miArbol.add(13);
+	miArbol.add(50);
+	miArbol.add(45);
+	miArbol.add(55);
+	miArbol.add(40);
+	miArbol.add(46);
+	miArbol.add(65);
+	miArbol.add(35);
+	miArbol.add(41);
+	miArbol.add(49);
+	miArbol.add(64);
+	miArbol.add(70);
+	miArbol.add(48);
 
-	miArbol.printLeft();
+	miArbol.print(1);
+	miArbol.print(2);
+	miArbol.print(3);
 
 	return 0;
 }
