@@ -19,9 +19,11 @@ public class KeyManager implements KeyListener{
     public boolean right;
     
     private boolean keys[];
+    private boolean movementArrowKeys[];
     
     public KeyManager() {
         keys = new boolean[256];
+        movementArrowKeys = new boolean[4];
     }
     
     @Override
@@ -30,18 +32,65 @@ public class KeyManager implements KeyListener{
     
     @Override
     public void keyPressed(KeyEvent e) {
-        keys[e.getKeyCode()] = true;
+        keys[e.getKeyCode()] = false;
     }
     
     @Override
     public void keyReleased(KeyEvent e) {
-        keys[e.getKeyCode()] = false;
+        keys[e.getKeyCode()] = true;
     }
     
     public void tick() {
-        up = keys[KeyEvent.VK_UP];
-        down = keys[KeyEvent.VK_DOWN];
-        left = keys[KeyEvent.VK_LEFT];
-        right = keys[KeyEvent.VK_RIGHT];
+        if (keys[KeyEvent.VK_UP]) {
+            if (!movementArrowKeys[0]) {
+                up = true;
+                movementArrowKeys[0] = true;
+            }
+            else {
+                up = false;
+            }
+        }
+        else {
+            movementArrowKeys[0] = false;
+        }
+        
+        if (keys[KeyEvent.VK_LEFT]) {
+            if (!movementArrowKeys[1]) {
+                left = true;
+                movementArrowKeys[1] = true;
+            }
+            else {
+                left = false;
+            }
+        }
+        else {
+            movementArrowKeys[1] = false;
+        }
+        
+        if (keys[KeyEvent.VK_DOWN]) {
+            if (!movementArrowKeys[2]) {
+                down = true;
+                movementArrowKeys[2] = true;
+            }
+            else {
+                down = false;
+            }
+        }
+        else {
+            movementArrowKeys[2] = false;
+        }
+        
+        if (keys[KeyEvent.VK_RIGHT]) {
+            if (!movementArrowKeys[3]) {
+                right = true;
+                movementArrowKeys[3] = true;
+            }
+            else {
+                right = false;
+            }
+        }
+        else {
+            movementArrowKeys[3] = false;
+        }
     }
 }

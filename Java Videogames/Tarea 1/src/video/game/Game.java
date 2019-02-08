@@ -5,7 +5,6 @@
  */
 package video.game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
@@ -19,12 +18,12 @@ public class Game implements Runnable {
     private Graphics g;         // to paint objects
     private Display display;	// to display in the game
     String title;															//	title	of	the	window
-    private int width;		// width of the	window
-    private int height;		// height of the window
+    private final int width;		// width of the	window
+    private final int height;		// height of the window
     private Thread thread;	// thread to create the	game
     private boolean running;    // to set the game
     private Player player;
-    private KeyManager keyManager;
+    private final KeyManager keyManager;
     
     
     /**
@@ -56,7 +55,7 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, width, height);
         Assets.init();
-        player = new Player(0, getHeight() - 100, 1, 100, 100, this);
+        player = new Player(0, getHeight() - 100, 1, 100, 100, this, 30);
         display.getJframe().addKeyListener(keyManager);
     }
     

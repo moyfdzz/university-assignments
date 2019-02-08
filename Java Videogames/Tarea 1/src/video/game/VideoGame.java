@@ -15,7 +15,7 @@ public class VideoGame {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Game g = new Game("Mario Bros", 800, 500);
+        Game g = new Game("Sonic", 800, 500);
         g.start();
     }
     

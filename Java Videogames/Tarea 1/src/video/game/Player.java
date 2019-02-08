@@ -17,15 +17,20 @@ public class Player extends Item {
     private int width;
     private int height;
     private Game game;
-    private int speed;
+    private int velX;
+    private int velY;
     
-    public Player(int x, int y, int direction, int width, int height, Game game) {
+    private final int maxVel;
+    
+    public Player(int x, int y, int direction, int width, int height, Game game, int maxVel) {
         super(x, y);
         this.direction = direction;
         this.width = width;
         this.height = height;
         this.game = game;
-        this.speed = 5;
+        this.velX = 0;
+        this.velY = 0;
+        this.maxVel = maxVel;
     }
     
     public int getDirection() {
@@ -39,6 +44,18 @@ public class Player extends Item {
     public int getHeight() {
         return height;
     }
+   
+    public int getVelX() {
+        return velX;
+    }
+    
+    public int getVelY() {
+        return velY;
+    }
+    
+    public int getMaxVel() {
+        return maxVel;
+    }
     
     public void setDirection(int direction) {
         this.direction = direction;
@@ -51,32 +68,39 @@ public class Player extends Item {
     public void setHeight(int height) {
         this.height = height;
     }
-    
+
+    public void setVelX(int velX) {
+        this.velX = velX;
+    }
+
+    public void setVelY(int velY) {
+        this.velY = velY;
+    }
     
     @Override
     public void tick() {        
         if (game.getKeyManager().up) {
-            setY(getY() - speed);
+            if (getVelY() * -1 < getMaxVel()) {
+                
+            }
         }
         if (game.getKeyManager().down) {
-            setY(getY() + speed);
+            setY(getY() + getVelY());
         }
         if (game.getKeyManager().left) {
-            setX(getX() - speed);
+            setX(getX() - getVelX());
         }
         if (game.getKeyManager().right) {
-            setX(getX() + speed);
+            setX(getX() + getVelX());
         }
-        if (getX() + 60 >= game.getWidth()) {
-            setX(game.getWidth() - 60);
-            //setDirection(-1);
+        if (getX() + getWidth() >= game.getWidth()) {
+            setX(game.getWidth() - getWidth());
         }
         else if (getX() <= -30) {
             setX(-30);
-            //setDirection(1);
         }
-        if (getY() + 80 >= game.getHeight()) {
-            setY(game.getHeight() - 80);
+        if (getY() + getHeight() >= game.getHeight()) {
+            setY(game.getHeight() - getHeight());
         }
         else if (getY() <= -20) {
             setY(-20);
