@@ -55,7 +55,7 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, width, height);
         Assets.init();
-        player = new Player(0, getHeight() - 100, 1, 100, 100, this, 30);
+        player = new Player(0, getHeight() - 100, 100, 100, this, 15);
         display.getJframe().addKeyListener(keyManager);
     }
     

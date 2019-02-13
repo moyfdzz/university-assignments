@@ -14,11 +14,14 @@ import video.game.ImageLoader;
  */
 public class Assets {
     public static BufferedImage background;
-    public static BufferedImage player;
+    public static BufferedImage playerImages[];
     
     public static void init() {
         background = ImageLoader.loadImage("/images/sonic_background.jpg");
-        player = ImageLoader.loadImage("/images/sonic.png");
+        playerImages = new BufferedImage[2];
+        
+        playerImages[0] = ImageLoader.loadImage("/images/sonic.png");
+        playerImages[1] = ImageLoader.loadImage("/images/sonic_spin.png");
     }
     
 }
