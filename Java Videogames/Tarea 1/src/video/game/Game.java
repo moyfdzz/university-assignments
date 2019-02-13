@@ -41,10 +41,18 @@ public class Game implements Runnable {
         keyManager = new KeyManager();
     }
     
+    /**
+     * Return the width of the window of the game
+     * @return an <code>int</code> value of the width of the window of the game
+     */
     public int getWidth() {
         return width;
     }
     
+    /**
+     * Return the height of the window of the game
+     * @return an <code>int</code> value of the height of the window of the game
+     */
     public int getHeight() {
         return height;
     }
@@ -59,6 +67,10 @@ public class Game implements Runnable {
         display.getJframe().addKeyListener(keyManager);
     }
     
+    /**
+     * Returns the key manager of the game
+     * @return keyManager
+     */
     public KeyManager getKeyManager() {
         return keyManager;
     }

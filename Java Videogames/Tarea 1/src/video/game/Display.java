@@ -24,7 +24,7 @@ public class Display {
     private int width;
     private int height;
 
-        /**
+     /**
      * create the app and the canvas and add the canvas	to the	window	app
      */
     public void createDisplay() {
@@ -71,9 +71,9 @@ public class Display {
     }
 
     /**
-     * to	get	the	canvas	of	the	game
+     * to get the canvas of the	game
      *
-     * @return	the	canvas
+     * @return	the canvas
      */
     public Canvas getCanvas() {
         return canvas;
