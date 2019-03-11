@@ -1,19 +1,3 @@
-/*
-Grafo no-dirigido y ponderado
-
-1º Línea. n m q
-
-n - Cantidad de Nodos
-m - Cantidad de Arcos
-q - Cantidad de Queries
-m Líneas con a b c
-
-Arco de (a,b) y (b,a) con un costo de c
-q Líneas con a b
-
-Arco (a,b) del cual se desea conocer su costo mínimo
-*/
-
 #include <iostream>
 #include <climits>
 using namespace std;
@@ -22,8 +6,8 @@ void floyd(int D[20][20], int n) {
     for (int k = 0; k < n; k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (D[i][k] != INT_MAX && D[k][j] != INT_MAX && D[i][k] + D[k][j] < D[i][j]) {
-                    D[i][j] = D[i][k] + D[k][j];
+                if (D[i][k] != INT_MAX && D[k][j] != INT_MAX && max(D[i][k], D[k][j]) < D[i][j]) {
+                    D[i][j] = max(D[i][k], D[k][j]);
                 }
             }
         }
@@ -31,32 +15,41 @@ void floyd(int D[20][20], int n) {
 }
 
 int main () {
-    int n, m, q, a, b, c;
+    int numberCases, C, Q, S, c1, c2, d;
     int D[20][20];
 
-    cin >> n >> m >> q;
+    cin >> numberCases;
 
-    for (int i = 0; i < n; i++) {
-        D[i][i] = 0;
+    for (int i = 0; i < numberCases; i++) {
+        cin >> C >> S >> Q;
 
-        for (int j = i + 1; j < n; j++) {
-            D[i][j] = D[j][i] = INT_MAX;
+        for (int j = 0; j < C; j++) {
+            D[j][j] = 0;
+
+            for (int k = j + 1; k < C; k++) {
+                D[j][k] = D[k][j] = INT_MAX;
+            }
         }
-    }
 
-    for (int i = 0; i < m; i++) {
-        cin >> a >> b >> c;
+        for (int x = 0; x < S; x++) {
+            cin >> c1 >> c2 >> d;
 
-        D[a - 1][b - 1] = D[b - 1][a - 1] = c;
-    }
-    
-    floyd(D, n);
+            D[c1 - 1][c2 - 1] = D[c2 - 1][c1 - 1] = d;
+        }
+        
+        floyd(D, C);
 
-    cout << endl;
+        cout << "Case " << i + 1 << ":" << endl;
 
-    for (int i = 0; i < q; i++) {
-        cin >> a >> b;
+        for (int a = 0; a < Q; a++) {
+            cin >> c1 >> c2;
 
-        cout << D[a - 1][b - 1] << endl;
+            if (D[c1 - 1][c2 - 1] == INT_MAX) {
+                cout << "no path" << endl;
+            }
+            else {
+                cout << D[c1 - 1][c2 - 1] << endl;
+            }
+        }
     }
 }
