@@ -7,17 +7,10 @@ using namespace std;
 
 int main () {
     BST miArbol;
-    miArbol.add(11);
-    miArbol.add(6);
-    miArbol.add(19);
     miArbol.add(4);
-    miArbol.add(8);
-    miArbol.add(17);
-    miArbol.add(43);
-    miArbol.add(5);
-    miArbol.add(10);
-    miArbol.add(31);
-    miArbol.add(49);
+    miArbol.add(2);
+    miArbol.add(1);
+    miArbol.add(3);
     //miArbol.print(1);
     // cout << endl;
     // miArbol.print(2);
@@ -25,7 +18,7 @@ int main () {
     // miArbol.print(3);
     // cout << endl;
 
-    cout << "11 6 19 4 8 17 43 5 10 31 49" << endl;
+    cout << "4 2 1 3" << endl;
 
     // if (miArbol.search(100)) {
     //     cout << "SI ENCONTRE EL 100" << endl;
@@ -97,7 +90,9 @@ int main () {
     // cout << miArbol.descendants(11) << endl;
     // cout << miArbol.getWidth(2) << endl;
 
-    miArbol.printSingles();
+    //miArbol.printSingles();
+
+    cout << miArbol.maxWidth() << endl;
 
     return 0;
 }
